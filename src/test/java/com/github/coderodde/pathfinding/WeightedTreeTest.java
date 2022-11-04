@@ -209,4 +209,37 @@ public final class WeightedTreeTest {
         WeightedTreeNode nodeCopy = new WeightedTreeNode(3);
         assertTrue(node.equals(nodeCopy));
     }
+    
+    @Test
+    public void isAcycle() {
+        tree.addTreeNode(0);
+        tree.addTreeNode(1);
+        tree.addTreeNode(2);
+        tree.addTreeNode(3);
+        tree.addTreeNode(4);
+        
+        tree.connect(0, 1, 1.0);
+        tree.connect(1, 2, 1.0);
+        tree.connect(1, 3, 1.0);
+        tree.connect(3, 4, 1.0);
+        
+        assertTrue(tree.isAcyclic());
+    }
+    
+    @Test
+    public void isCyclic() {
+        tree.addTreeNode(0);
+        tree.addTreeNode(1);
+        tree.addTreeNode(2);
+        tree.addTreeNode(3);
+        tree.addTreeNode(4);
+        
+        tree.connect(0, 1, 1.0);
+        tree.connect(1, 2, 0);
+        tree.connect(2, 3, 0);
+        tree.connect(3, 1, 0);
+        tree.connect(4, 2, 3.0);
+        
+        assertFalse(tree.isAcyclic());
+    }
 }

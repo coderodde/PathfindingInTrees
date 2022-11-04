@@ -1,7 +1,11 @@
 package com.github.coderodde.pathfinding;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -55,6 +59,11 @@ public final class WeightedTree {
            
             WeightedTreeNode other = (WeightedTreeNode) o;
             return this.id == other.id;
+        }
+        
+        @Override
+        public String toString() {
+            return "[WeightedTreeNode, id = " + id + "]";
         }
     }
     
@@ -170,6 +179,15 @@ public final class WeightedTree {
         return treeNode1.neighbors.contains(treeNode2);
     }
     
+    public WeightedTreeNode getWeightedTreeNode(int id) {
+        if (!nodeMap.containsKey(id)) {
+            throw new IllegalStateException(
+                    "No node with ID " + id + " in the tree.");
+        }
+        
+        return nodeMap.get(id);
+    }
+    
     public boolean containsNodeId(int id) {
         return nodeMap.containsKey(id);
     }
@@ -208,6 +226,31 @@ public final class WeightedTree {
         }
         
         return Collections.unmodifiableSet(treeNode.neighbors);
+    }
+    
+    public boolean isAcyclic() {
+        Deque<Iterator<WeightedTreeNode>> iteratorStack = new ArrayDeque<>();
+        Set<WeightedTreeNode> visited = new HashSet<>();
+        Set<WeightedTreeNode> stack = new HashSet<>();
+        
+        WeightedTreeNode startNode = nodeMap.values().iterator().next();
+        iteratorStack.addLast(startNode.neighbors.iterator());
+        
+        while (!iteratorStack.isEmpty()) {
+            if (iteratorStack.getLast().hasNext()) {
+                WeightedTreeNode nextNode = iteratorStack.getLast().next();
+                
+                if (!visited.contains(nextNode)) {
+                    visited.add(nextNode);
+                    iteratorStack.addLast(nextNode.neighbors.iterator());
+                }
+                
+            } else {
+                iteratorStack.removeLast();
+            } 
+        }
+        
+        return true;
     }
     
     private void connectImpl(WeightedTreeNode treeNode1, 
