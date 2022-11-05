@@ -38,6 +38,35 @@ public final class WeightedPath {
     }
     
     @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        
+        if (o == null) {
+            return false;
+        }
+        
+        if (!getClass().equals(o.getClass())) {
+            return false;
+        }
+        
+        WeightedPath otherPath = (WeightedPath) o;
+        
+        if (getNumberOfNodes() != otherPath.getNumberOfNodes()) {
+            return false;
+        }
+        
+        for (int i = 0; i < nodeList.size(); i++) {
+            if (!nodeList.get(i).equals(otherPath.nodeList.get(i))) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         nodeList.forEach((node) -> { sb.append(node).append('\n');});

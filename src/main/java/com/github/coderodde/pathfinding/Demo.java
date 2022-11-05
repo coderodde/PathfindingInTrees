@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class Demo {
 
-    private static final int RADIUS = 11;
+    private static final int RADIUS = 12;
     private static final int DEGREE = 4;
     
     private static final List<Pathfinder> pathfinders = new ArrayList<>(5);
@@ -57,7 +57,9 @@ public class Demo {
         endTime = System.currentTimeMillis();
         duration = endTime - startTime;
         
-        System.out.println("Warmup in " + duration + " milliseconds");
+        
+        
+        System.out.println("Benchmark in " + duration + " milliseconds");
     }
     
     private static void warmup(WeightedTree tree, Random random) {
