@@ -17,6 +17,7 @@ public class Demo {
     
     static {
         pathfinders.add(new BreadthFirstSearchPathfinder());
+        pathfinders.add(new BidirectionalBreadthFirstSearchPathfinder());
         pathfinders.add(new DepthFirstSearchPathfinder());
     }
     
@@ -57,8 +58,6 @@ public class Demo {
         endTime = System.currentTimeMillis();
         duration = endTime - startTime;
         
-        
-        
         System.out.println("Benchmark in " + duration + " milliseconds");
     }
     
@@ -81,6 +80,10 @@ public class Demo {
         
         List<WeightedPath> paths = new ArrayList<>();
         
+        if (print) {
+            System.out.println("---------------------------------------------");
+        }
+        
         for (Pathfinder pathfinder : pathfinders) {
             long startTime = System.currentTimeMillis();
             WeightedPath path = pathfinder.search(tree,
@@ -101,11 +104,17 @@ public class Demo {
         }
         
         if (print) {
+            System.out.println("---------------------------------------------");
+        }
+        
+        if (print) {
             boolean pathsEqual = pathsAreEqual(paths);
             
             if (!pathsEqual) {
                 System.out.println("Path mismatch!");
             } else {
+                System.out.println("Algorithms agree on a path.");
+                System.out.println();
                 System.out.println("Shortest path:");
                 System.out.println(paths.get(0));
                 System.out.println(
