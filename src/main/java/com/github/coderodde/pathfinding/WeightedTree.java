@@ -1,8 +1,6 @@
 package com.github.coderodde.pathfinding;
 
-import java.util.ArrayDeque;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -228,29 +226,48 @@ public final class WeightedTree {
         return Collections.unmodifiableSet(treeNode.neighbors);
     }
     
-    public boolean isAcyclic() {
-        Deque<Iterator<WeightedTreeNode>> iteratorStack = new ArrayDeque<>();
-        Set<WeightedTreeNode> visited = new HashSet<>();
-        Set<WeightedTreeNode> stack = new HashSet<>();
-        
-        WeightedTreeNode startNode = nodeMap.values().iterator().next();
-        iteratorStack.addLast(startNode.neighbors.iterator());
-        
-        while (!iteratorStack.isEmpty()) {
-            if (iteratorStack.getLast().hasNext()) {
-                WeightedTreeNode nextNode = iteratorStack.getLast().next();
-                
-                if (!visited.contains(nextNode)) {
-                    visited.add(nextNode);
-                    iteratorStack.addLast(nextNode.neighbors.iterator());
-                }
-                
-            } else {
-                iteratorStack.removeLast();
-            } 
+    public boolean isCyclic() {
+        if (nodeMap.isEmpty()) {
+            throw new IllegalStateException("Empty tree.");
         }
         
-        return true;
+        Set<WeightedTreeNode> visited = new HashSet<>();
+        WeightedTreeNode parentSentinel = new WeightedTreeNode(-1);
+        
+        for (WeightedTreeNode node : nodeMap.values()) {
+            if (!visited.contains(node)) {
+                if (isCyclicImpl(node, parentSentinel, visited)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    public int getNumberOfNodes() {
+        return nodeMap.size();
+    }
+    
+    private static boolean isCyclicImpl(WeightedTreeNode node, 
+                                        WeightedTreeNode parent,
+                                        Set<WeightedTreeNode> visitedSet) {
+        visitedSet.add(node);
+        Iterator<WeightedTreeNode> iterator = node.neighbors.iterator();
+        
+        while (iterator.hasNext()) {
+            WeightedTreeNode neighbor = iterator.next();
+            
+            if (!visitedSet.contains(neighbor)) {
+                if (isCyclicImpl(neighbor, node, visitedSet)) {
+                    return true;
+                }
+            } else if (!neighbor.equals(parent)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     private void connectImpl(WeightedTreeNode treeNode1, 

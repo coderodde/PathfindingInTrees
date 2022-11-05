@@ -211,7 +211,7 @@ public final class WeightedTreeTest {
     }
     
     @Test
-    public void isAcycle() {
+    public void isAcyclic() {
         tree.addTreeNode(0);
         tree.addTreeNode(1);
         tree.addTreeNode(2);
@@ -223,7 +223,7 @@ public final class WeightedTreeTest {
         tree.connect(1, 3, 1.0);
         tree.connect(3, 4, 1.0);
         
-        assertTrue(tree.isAcyclic());
+        assertFalse(tree.isCyclic());
     }
     
     @Test
@@ -240,6 +240,6 @@ public final class WeightedTreeTest {
         tree.connect(3, 1, 0);
         tree.connect(4, 2, 3.0);
         
-        assertFalse(tree.isAcyclic());
+        assertTrue(tree.isCyclic());
     }
 }
