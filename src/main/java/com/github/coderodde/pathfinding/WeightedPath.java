@@ -37,6 +37,13 @@ public final class WeightedPath {
         return totalCost;
     }
     
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        nodeList.forEach((node) -> { sb.append(node).append('\n');});
+        return sb.toString();
+    }
+    
     private void loadEdgesAndTotalCost(WeightedTree tree,
                                        List<WeightedTreeNode> nodeList) {
         double totalCost = 0.0;

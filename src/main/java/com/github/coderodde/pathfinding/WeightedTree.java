@@ -63,6 +63,10 @@ public final class WeightedTree {
         public String toString() {
             return "[WeightedTreeNode, id = " + id + "]";
         }
+        
+        public Set<WeightedTreeNode> getNeighbors() {
+            return Collections.unmodifiableSet(neighbors);
+        }
     }
     
     public WeightedTreeNode addTreeNode(int id) {
@@ -243,6 +247,10 @@ public final class WeightedTree {
         }
         
         return false;
+    }
+    
+    public WeightedTreeNode getNode(int id) {
+        return nodeMap.get(id);
     }
     
     public int getNumberOfNodes() {

@@ -12,31 +12,28 @@ import java.util.Set;
 /**
  * 
  * @author Rodion "rodde" Efremov
- * @version 1.6 ()
- * @since 1.6 ()
+ * @version 1.6 (Nov 5, 2022)
+ * @since 1.6 (Nov 5, 2022)
  */
 public final class BreadthFirstSearchPathfinder implements Pathfinder {
 
     @Override
-    public WeightedPath search(WeightedTree tree, int sourceId, int targetId) {
-        Objects.requireNonNull(tree, "The tree is null.");
-        checkTerminalNodes(tree, sourceId, targetId);
+    public WeightedPath search(WeightedTree tree, 
+                               int sourceNodeId,
+                               int targetNodeId) {
         
-        WeightedTreeNode sourceNode = tree.getWeightedTreeNode(sourceId);
-        WeightedTreeNode targetNode = tree.getWeightedTreeNode(targetId);
+        Objects.requireNonNull(tree, "The tree is null.");
+        checkTerminalNodes(tree, sourceNodeId, targetNodeId);
+        
+        WeightedTreeNode sourceNode = tree.getWeightedTreeNode(sourceNodeId);
+        WeightedTreeNode targetNode = tree.getWeightedTreeNode(targetNodeId);
         
         Deque<WeightedTreeNode> deque = new ArrayDeque<>();
-        Set<WeightedTreeNode> visitedSet = new HashSet<>();
-        
+        Set<WeightedTreeNode> visited = new HashSet<>();
         Map<WeightedTreeNode, WeightedTreeNode> parentMap = new HashMap<>();
-        Map<WeightedTreeNode, Integer> distanceMap        = new HashMap<>();
         
         deque.add(sourceNode);
         parentMap.put(sourceNode, null);
-        distanceMap.put(sourceNode, 0);
-        
-        int searchRadius = 0;
-        WeightedTreeNode lastLayerNode = sourceNode;
         
         while (!deque.isEmpty()) {
             WeightedTreeNode currentNode = deque.removeFirst();
@@ -45,40 +42,24 @@ public final class BreadthFirstSearchPathfinder implements Pathfinder {
                 return tracebackPath(tree, targetNode, parentMap);
             }
             
-            if (distanceMap.containsKey(currentNode)) {
-                int currentNodeDistance = distanceMap.get(currentNode);
-                
-                if (currentNodeDistance < searchRadius) {
-                    throw new GraphIsNotTreeException();
-                }
+            if (visited.contains(currentNode)) {
+                continue;
             }
             
-            if (visitedSet.contains(currentNode)) {
-                throw new GraphIsNotTreeException();
-            }
-            
-            visitedSet.add(currentNode);
+            visited.add(currentNode);
             
             for (WeightedTreeNode neighborNode : 
                     tree.getNeighbors(currentNode.getId())) {
-                if (visitedSet.contains(neighborNode)) {
-                    System.out.println("yes 1");
+                if (visited.contains(neighborNode)) {
+//                    System.out.println("continue");
                     continue;
                 }
                 
                 parentMap.put(neighborNode, currentNode);
-                distanceMap.put(neighborNode,
-                                distanceMap.get(currentNode) + 1);
-                
                 deque.addLast(neighborNode);
-            }
-            
-            if (currentNode.equals(lastLayerNode)) {
-                lastLayerNode = currentNode;
-                searchRadius++;
             }
         }
         
-        throw new PathNotFoundException(sourceId, targetId);
+        throw new PathNotFoundException(sourceNodeId, targetNodeId);
     }
 }
