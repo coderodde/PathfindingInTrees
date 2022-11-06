@@ -35,11 +35,6 @@ public class DepthFirstSearchPathfinder implements Pathfinder {
         }
         
         for (WeightedTreeNode neighbor : sourceNode.getNeighbors()) {
-            if (parentMap.containsKey(neighbor)) {
-                System.out.println("hello");
-                continue;
-            }
-            
             WeightedPath path = searchImpl(tree, 
                                            targetNode,
                                            sourceNode,

@@ -14,7 +14,7 @@ import java.util.Objects;
 public final class IterativeDeepeningDepthFirstSearchPathfinder 
         implements Pathfinder {
 
-    private final int maximumDepth;
+    private int maximumDepth;
     
     public IterativeDeepeningDepthFirstSearchPathfinder(int maximumDepth) {
         this.maximumDepth = checkMaximumDepth(maximumDepth);
@@ -36,6 +36,12 @@ public final class IterativeDeepeningDepthFirstSearchPathfinder
         WeightedTreeNode targetNode = tree.getWeightedTreeNode(targetNodeId);
         
         Map<WeightedTreeNode, WeightedTreeNode> parentMap = new HashMap<>();
+        
+        
+        if (sourceNode.equals(targetNode)) {
+            parentMap.put(sourceNode, null);
+            return tracebackPath(tree, targetNode, parentMap);
+        }
         
         for (int depth = 0; depth <= maximumDepth; depth++) {
             parentMap.clear();

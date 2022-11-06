@@ -29,7 +29,6 @@ public final class BreadthFirstSearchPathfinder implements Pathfinder {
         WeightedTreeNode targetNode = tree.getWeightedTreeNode(targetNodeId);
         
         Deque<WeightedTreeNode> deque = new ArrayDeque<>();
-        Set<WeightedTreeNode> visited = new HashSet<>();
         Map<WeightedTreeNode, WeightedTreeNode> parentMap = new HashMap<>();
         
         deque.add(sourceNode);
@@ -42,16 +41,9 @@ public final class BreadthFirstSearchPathfinder implements Pathfinder {
                 return tracebackPath(tree, targetNode, parentMap);
             }
             
-            if (visited.contains(currentNode)) {
-                continue;
-            }
-            
-            visited.add(currentNode);
-            
             for (WeightedTreeNode neighborNode : 
                     tree.getNeighbors(currentNode.getId())) {
-                if (visited.contains(neighborNode)) {
-//                    System.out.println("continue");
+                if (parentMap.containsKey(neighborNode)) {
                     continue;
                 }
                 
