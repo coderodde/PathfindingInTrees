@@ -5,15 +5,16 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 /**
+ * This class implements a bidirectional breadth-first search. It alternates 
+ * two search frontiers meeting somewhere in between.
  * 
  * @author Rodion "rodde" Efremov
- * @version 1.6 ()
- * @since 1.6 ()
+ * @version 1.6 (Nov 6, 2022)
+ * @since 1.6 (Nov 6, 2022)
  */
 public final class BidirectionalBreadthFirstSearchPathfinder 
         implements Pathfinder {

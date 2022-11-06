@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- *
- * @author Rodion "rodde" Efremov
- */
-public class Demo {
+public final class Demo {
 
     private static final int RADIUS = 12;
     private static final int DEGREE = 4;

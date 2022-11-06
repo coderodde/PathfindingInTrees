@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
- * @author rodde
+ * This interface specifies the entry point to the tree shortest pathfinders.
+ * 
+ * @author Rodion "rodde" Efremov
+ * @version 1.6 (Nov 6, 2022)
+ * @since 1.6 (Nov 6, 2022)
  */
 public interface Pathfinder {
     

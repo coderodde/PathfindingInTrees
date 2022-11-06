@@ -56,16 +56,16 @@
                         </goals>
                     </execution>
                 </executions>
-<!--                
+            </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
-                    <excludes>
-                        <exclude>**/com/github/coderodde/util/benchmark/LinkedListBenchmarkRunner.class</exclude>
-                        <exclude>**/com/github/coderodde/util/benchmark/LinkedListBenchmark.class</exclude>
-                        <exclude>**/com/github/coderodde/util/benchmark/LinkedListBenchmark$BenchmarkChoice.class</exclude>
-                        <exclude>**/com/github/coderodde/util/Finger.class</exclude>
-                        <exclude>**/com/github/coderodde/util/Node.class</exclude>
-                    </excludes>
-                </configuration>-->
+                    <mainClass>com.github.coderodde.pathfinding.Demo</mainClass>
+                    <arguments>  </arguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>
