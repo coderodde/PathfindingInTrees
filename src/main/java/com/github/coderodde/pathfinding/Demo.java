@@ -20,6 +20,9 @@ public class Demo {
         pathfinders.add(new BidirectionalBreadthFirstSearchPathfinder());
         pathfinders.add(new DepthFirstSearchPathfinder());
         pathfinders.add(new IterativeDeepeningDepthFirstSearchPathfinder());
+        
+        pathfinders.add(
+            new BidirectionalIterativeDeepeningDepthFirstSearchPathfinder());
     }
     
     public static void main(String[] args) {
